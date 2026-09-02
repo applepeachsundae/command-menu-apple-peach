@@ -1,18 +1,18 @@
 {
 	"schemaVersion": 1,
-	"id": "command_menu_ap",
+	"id": "command_shortcut_ap",
 	"version": "${version}",
-	"name": "Command Menu AP",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"name": "Command Shortcut AP",
+	"description": "Shortcut for command menu!",
 	"authors": [
-		"Me!"
+		"KattoLovesi / Apple Peach"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://modrinth.com/mod/command-shortcut-ap",
+		"sources": "-"
 	},
 	"license": "CC0-1.0",
-	"icon": "assets/command_menu_ap/icon.png",
+	"icon": "C:\\Users\\Aoki\\Documents\\command menu ap test\\command-menu-ap-template-26.1.2\\command menu apple peach.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
@@ -31,7 +31,7 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.19.3",
-		"minecraft": "~26.1.2",
+		"minecraft": ">=26.1.2 <=26.2",
 		"java": ">=25",
 		"fabric-api": "*"
 	}
