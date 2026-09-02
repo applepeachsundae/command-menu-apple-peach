@@ -10,4 +10,4 @@ pluginManagement {
 }
 
 // Should match your modid
-rootProject.name = 'command_menu_ap'
+rootProject.name = 'command-shortcut-ap'
