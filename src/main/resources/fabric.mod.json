@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "command_menu_ap",
+	"version": "${version}",
+	"name": "Command Menu AP",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/command_menu_ap/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.aoki.commandmenuap.CommandMenuAP"
+		],
+		"client": [
+			"com.aoki.commandmenuap.client.CommandMenuAPClient"
+		]
+	},
+	"mixins": [
+		"command_menu_ap.mixins.json",
+		{
+			"config": "command_menu_ap.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~26.1.2",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}
