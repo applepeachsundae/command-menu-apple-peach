@@ -18,6 +18,9 @@ public class EditCommandDialog extends Screen {
     private EditBox iconIdBox;
     private boolean closeOnClick;
     private String iconType;
+    private String draftLabel;
+    private String draftCommand;
+    private String draftIconId;
 
     public EditCommandDialog(Screen parent, ModConfig.Entry entry, boolean isNew, Runnable onSave) {
         super(Component.literal(isNew ? "Add Command" : "Edit Command"));
@@ -27,6 +30,15 @@ public class EditCommandDialog extends Screen {
         this.onSave = onSave;
         this.closeOnClick = entry.closeOnClick;
         this.iconType = entry.iconType != null ? entry.iconType : "ITEM";
+        this.draftLabel = entry.label;
+        this.draftCommand = entry.command;
+        this.draftIconId = entry.iconId != null ? entry.iconId : "diamond";
+    }
+
+    private void saveDraftFields() {
+        if (this.labelBox != null) this.draftLabel = this.labelBox.getValue();
+        if (this.commandBox != null) this.draftCommand = this.commandBox.getValue();
+        if (this.iconIdBox != null) this.draftIconId = this.iconIdBox.getValue();
     }
 
     @Override
@@ -36,12 +48,12 @@ public class EditCommandDialog extends Screen {
 
         this.labelBox = new EditBox(this.font, centerX - 100, startY, 200, 18, Component.literal("Label"));
         this.labelBox.setMaxLength(128);
-        this.labelBox.setValue(this.entry.label);
+        this.labelBox.setValue(this.draftLabel);
         this.addRenderableWidget(this.labelBox);
 
         this.commandBox = new EditBox(this.font, centerX - 100, startY + 22, 200, 18, Component.literal("Command"));
         this.commandBox.setMaxLength(1024);
-        this.commandBox.setValue(this.entry.command);
+        this.commandBox.setValue(this.draftCommand);
         this.addRenderableWidget(this.commandBox);
 
         // Siklus tipe ikon: ITEM -> URL -> LOCAL -> NONE
@@ -51,6 +63,7 @@ public class EditCommandDialog extends Screen {
                     else if ("URL".equals(this.iconType)) this.iconType = "LOCAL";
                     else if ("LOCAL".equals(this.iconType)) this.iconType = "NONE";
                     else this.iconType = "ITEM";
+                    this.saveDraftFields();
                     this.rebuildWidgets();
                 });
         this.addRenderableWidget(typeBtn);
@@ -58,16 +71,16 @@ public class EditCommandDialog extends Screen {
         this.addRenderableWidget(new ModernButton(centerX + 2, startY + 44, 98, 18,
                 Component.literal("Browse..."), () -> {
                     if (!"NONE".equalsIgnoreCase(this.iconType) && this.minecraft != null) {
+                        this.saveDraftFields();
                         this.minecraft.setScreen(new IconPickerScreen(this, this.iconType, selected -> {
-                            this.entry.iconId = selected;
-                            if (this.iconIdBox != null) this.iconIdBox.setValue(selected);
+                            this.draftIconId = selected;
                         }));
                     }
                 }));
 
         this.iconIdBox = new EditBox(this.font, centerX - 100, startY + 66, 200, 18, Component.literal("Icon ID"));
         this.iconIdBox.setMaxLength(4096);
-        this.iconIdBox.setValue(this.entry.iconId != null ? this.entry.iconId : "diamond");
+        this.iconIdBox.setValue(this.draftIconId);
         this.addRenderableWidget(this.iconIdBox);
 
         this.addRenderableWidget(new ModernButton(centerX - 100, startY + 90, 200, 18,
@@ -77,11 +90,12 @@ public class EditCommandDialog extends Screen {
                 );
 
         this.addRenderableWidget(new ModernButton(centerX - 100, startY + 116, 95, 20, Component.literal("Save"), () -> {
-            this.entry.label = this.labelBox.getValue();
-            this.entry.command = this.commandBox.getValue();
+            this.saveDraftFields();
+            this.entry.label = this.draftLabel;
+            this.entry.command = this.draftCommand;
             this.entry.closeOnClick = this.closeOnClick;
             this.entry.iconType = this.iconType;
-            this.entry.iconId = this.iconIdBox.getValue();
+            this.entry.iconId = this.draftIconId;
             this.onSave.run();
             if (this.minecraft != null) this.minecraft.setScreen(this.parent);
         }));

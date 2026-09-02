@@ -12,7 +12,7 @@
 		"sources": "-"
 	},
 	"license": "CC0-1.0",
-	"icon": "C:\\Users\\Aoki\\Documents\\command menu ap test\\command-menu-ap-template-26.1.2\\command menu apple peach.png",
+	"icon": "assets/command_menu_ap/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
