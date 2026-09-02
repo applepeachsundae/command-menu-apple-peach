@@ -19,11 +19,11 @@ public class CommandMenuAPClient implements ClientModInitializer {
                 Identifier.fromNamespaceAndPath("command_menu_ap", "keybinds")
         );
 
-        // Register default keybinding ('M' key) / デフォルトキーバインドの登録（'M'キー）
+        // Register default keybinding ('G' key) / デフォルトキーバインドの登録（'G'キー）
         keyOpen = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.command_menu_ap.open",
                 InputConstants.Type.KEYSYM,
-                GLFW.GLFW_KEY_M,
+                GLFW.GLFW_KEY_G,
                 category
         ));
 
@@ -31,8 +31,12 @@ public class CommandMenuAPClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (keyOpen.consumeClick()) {
                 if (client.player != null) {
-                    // Open the command menu screen / コマンドメニュー画面を開く
-                    client.setScreen(new CommandMenuScreen());
+                    if (client.screen instanceof CommandMenuScreen) {
+                        client.setScreen(null);
+                    } else {
+                        // Open the command menu screen / コマンドメニュー画面を開く
+                        client.setScreen(new CommandMenuScreen());
+                    }
                 }
             }
         });

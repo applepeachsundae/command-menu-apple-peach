@@ -77,6 +77,11 @@ public class CommandMenuScreen extends Screen {
 
     @Override
     public boolean keyPressed(KeyEvent event) {
+        if (event.key() == GLFW.GLFW_KEY_G
+                && (this.commandSearch == null || !this.commandSearch.isFocused())) {
+            if (this.minecraft != null) this.minecraft.setScreen(null);
+            return true;
+        }
         if (setMovementKey(event.key(), true)) return true;
         return super.keyPressed(event);
     }
@@ -119,7 +124,7 @@ public class CommandMenuScreen extends Screen {
         if (this.editMode) {
             renderCustomButton(guiGraphics, "Clear Group", centerXPos(panelX, panelW, 164) + 2, panelY + 12, 78, 18, 0xFF451A03, 0xFF78350F, mouseX, mouseY, () -> {
                 if (!config.groups.isEmpty() && selectedGroup < config.groups.size()) {
-                    config.groups.get(selectedGroup).commands.clear();
+                    config.groups.get(selectedGroup).commands.removeIf(command -> !command.pinned);
                     config.save(contextKey);
                 }
             });
